@@ -1,5 +1,6 @@
 package ru.netology.test;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ public class FormTest {
 
     @BeforeAll
     static void setUpAll() {
+        WebDriverManager.chromedriver().setup();
         System.setProperty("webdriver.chrome.driver", "./driver/win/chromedriver.exe");
     }
 
@@ -28,7 +30,7 @@ public class FormTest {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(options);
     }
 
     @AfterEach
@@ -38,7 +40,7 @@ public class FormTest {
     }
 
     @Test
-    public void sendFormSuccessfulTest() throws InterruptedException {
+    public void sendFormSuccessfulTest() {
         driver.get("http://localhost:9999");
         List<WebElement> inputs = driver.findElements(By.className("input__control"));
         inputs.get(0).sendKeys("Иванов Иван");
